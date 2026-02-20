@@ -1,4 +1,3 @@
-// server.js
 import "dotenv/config";
 import express from "express";
 
@@ -10,21 +9,18 @@ import wakatimeCard from "./api/wakatime.js";
 import gistCard from "./api/gist.js";
 
 const app = express();
-const router = express.Router();
 
-// Mount API routes
-router.get("/", statsCard);
-router.get("/pin", repoCard);
-router.get("/top-langs", langCard);
-router.get("/wakatime", wakatimeCard);
-router.get("/gist", gistCard);
-
-app.use("/api", router);
-
-// Optional root test route
+// Root test route
 app.get("/", (req, res) => {
   res.send("GitHub Readme Stats server is running!");
 });
+
+// Mount API routes exactly as expected by GitHub Readme Stats
+app.get("/api", statsCard);
+app.get("/api/pin", repoCard);
+app.get("/api/top-langs", langCard);
+app.get("/api/wakatime", wakatimeCard);
+app.get("/api/gist", gistCard);
 
 // Listen on Render port
 const PORT = process.env.PORT || 9000;
